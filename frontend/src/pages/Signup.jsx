@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, Button, Input, Label, Separator, Alert, AlertDescription, Checkbox } from './ui-components';
 import { FileSpreadsheet, Eye, EyeOff, Mail, Lock, User, Github, Chrome } from 'lucide-react';
 import { toast } from 'sonner';
+import { SignUp } from '@/api/auth';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +12,7 @@ const Signup = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    agreeToTerms: false,
+    agreeToTerms: true,
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -65,23 +66,18 @@ const Signup = () => {
     }
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Store user data (in a real app, this would come from the API)
-      const userData = {
-        id: 1,
-        name: `${formData.firstName} ${formData.lastName}`,
-        email: formData.email,
-        avatar: null,
-        joinDate: new Date().toISOString(),
-      };
-      
-      localStorage.setItem('user', JSON.stringify(userData));
-      localStorage.setItem('isAuthenticated', 'true');
-      
-      toast.success('Account created successfully! Welcome to Excel Data Analyzer!');
-      navigate('/dashboard');
+      // API call
+      const response = await SignUp(formData);
+
+      if (response.token) {
+
+        localStorage.setItem('isAuthenticated', 'true');
+        localStorage.setItem('token', response.token);
+
+        toast.success('Account created successfully! Welcome to Excel Data Analyzer!');
+        navigate('/dashboard');
+      }
+
     } catch (err) {
       setError('Failed to create account. Please try again.');
       toast.error('Signup failed');
@@ -291,8 +287,8 @@ const Signup = () => {
 
             <div className="text-center text-sm">
               <span className="text-slate-600">Already have an account? </span>
-              <Link 
-                to="/login" 
+              <Link
+                to="/login"
                 className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
               >
                 Sign in

@@ -8,22 +8,25 @@ import { toast } from 'sonner';
 import FileUpload from './FileUpload';
 
 const Dashboard = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    token: '',
+    isAuthenticated: false
+  });
   const [uploadedData, setUploadedData] = useState(null);
   const [fileName, setFileName] = useState('');
   const [activeView, setActiveView] = useState('upload');
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userData = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
     const isAuthenticated = localStorage.getItem('isAuthenticated');
-    
-    if (!userData || !isAuthenticated) {
+
+    if (!token || !isAuthenticated) {
       navigate('/login');
       return;
     }
 
-    setUser(JSON.parse(userData));
+    setUser({ token, isAuthenticated });
   }, [navigate]);
 
   const handleFileUpload = (data, name) => {
@@ -34,13 +37,13 @@ const Dashboard = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     localStorage.removeItem('isAuthenticated');
     toast.success('Logged out successfully');
     navigate('/login');
   };
 
-  if (!user) {
+  if (!user.isAuthenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
@@ -97,13 +100,12 @@ const Dashboard = () => {
                 key={tab.id}
                 onClick={() => setActiveView(tab.id)}
                 disabled={tab.disabled}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all ${
-                  activeView === tab.id
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : tab.disabled
+                className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all ${activeView === tab.id
+                  ? 'bg-blue-600 text-white shadow-sm'
+                  : tab.disabled
                     ? 'text-slate-400 cursor-not-allowed'
                     : 'text-slate-600 hover:bg-white/80 hover:text-slate-800'
-                }`}
+                  }`}
               >
                 <tab.icon className="h-4 w-4" />
                 <span className="font-medium">{tab.name}</span>
@@ -127,7 +129,7 @@ const Dashboard = () => {
                   Upload your Excel or CSV file to get started with data analysis and visualization.
                 </p>
               </div>
-              
+
               <FileUpload onFileUpload={handleFileUpload} />
 
               {/* Recent Files */}
@@ -154,14 +156,14 @@ const Dashboard = () => {
                           </div>
                         </div>
                         <div className="flex space-x-2">
-                          <Button 
+                          <Button
                             onClick={() => setActiveView('preview')}
                             className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
                           >
                             <FileText className="h-4 w-4 mr-2" />
                             Preview
                           </Button>
-                          <Button 
+                          <Button
                             onClick={() => navigate('/charts', { state: { data: uploadedData, fileName } })}
                             variant="outline"
                             className="border-green-300 text-green-700 hover:bg-green-50"
@@ -198,7 +200,7 @@ const Dashboard = () => {
                       <Button onClick={() => navigate('/data-analysis', { state: { data: uploadedData, fileName } })}>
                         Analyze Data
                       </Button>
-                      <Button 
+                      <Button
                         variant="outline"
                         onClick={() => navigate('/charts', { state: { data: uploadedData, fileName } })}
                       >

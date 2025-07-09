@@ -32,7 +32,7 @@ app.use(errorHandler);
 
 // Routes
 app.use("/auth", authRouter);
-app.use("/analytic", analyticRouter);
+app.use("/analytics", analyticRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(

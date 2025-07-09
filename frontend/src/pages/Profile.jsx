@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, Button, Input, Label, Separator, Alert, AlertDescription, Badge, Tabs, TabsContent, TabsList, TabsTrigger } from './ui-components';
-import { 
-  User, 
-  Mail, 
-  Calendar, 
-  Settings, 
-  Shield, 
-  Bell, 
-  Download, 
+import {
+  User,
+  Mail,
+  Calendar,
+  Settings,
+  Shield,
+  Bell,
+  Download,
   Upload,
   FileSpreadsheet,
   BarChart3,
@@ -18,6 +18,7 @@ import {
   LogOut
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { getUser, updateUser } from '@/api/auth';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -39,26 +40,27 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userData = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
     const isAuthenticated = localStorage.getItem('isAuthenticated');
-    
-    if (!userData || !isAuthenticated) {
+
+    if (!token || !isAuthenticated) {
       navigate('/login');
       return;
     }
 
-    const parsedUser = JSON.parse(userData);
-    setUser(parsedUser);
-    
-    const nameParts = parsedUser.name.split(' ');
-    setFormData({
-      firstName: nameParts[0] || '',
-      lastName: nameParts.slice(1).join(' ') || '',
-      email: parsedUser.email || '',
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-    });
+    const getUserData = async () => {
+      const response = await getUser(token);
+      const userData = response?.user;
+      setUser({ ...userData, token });
+      setFormData(prev => ({
+        ...prev,
+        firstName: userData?.firstName || '',
+        lastName: userData?.lastName || '',
+        email: userData?.email || '',
+      }))
+    }
+    getUserData();
+
   }, [navigate]);
 
   const handleInputChange = (e) => {
@@ -90,17 +92,29 @@ const Profile = () => {
     }
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const updatedUser = {
-        ...user,
-        name: `${formData.firstName} ${formData.lastName}`,
-        email: formData.email,
-      };
-      
-      localStorage.setItem('user', JSON.stringify(updatedUser));
-      setUser(updatedUser);
+      // API call
+      let update = {}
+
+      if (formData.firstName !== user?.firstName) update.firstName = formData.firstName;
+      if (formData.lastName !== user?.lastName) update.lastName = formData.lastName;
+      if (formData.email !== user?.email) update.email = formData.email;
+
+      const response = await updateUser(update, user?.token);
+
+      const userData = response?.user;
+      setUser(prev => ({
+        ...prev,
+        firstName: userData?.firstName,
+        lastName: userData?.lastName,
+        email: userData?.email,
+      }))
+      setFormData(prev => ({
+        ...prev,
+        firstName: userData?.firstName || '',
+        lastName: userData?.lastName || '',
+        email: userData?.email || '',
+      }))
+
       setSuccess('Profile updated successfully!');
       toast.success('Profile updated successfully!');
     } catch (err) {
@@ -135,10 +149,17 @@ const Profile = () => {
       return;
     }
 
+    if (formData.currentPassword === formData.newPassword) {
+      setError('New password must be different from the current password.');
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      // API call
+      const password = formData.newPassword
+      await updateUser({ password }, user?.token);
+
       setFormData(prev => ({
         ...prev,
         currentPassword: '',
@@ -156,7 +177,7 @@ const Profile = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     localStorage.removeItem('isAuthenticated');
     toast.success('Logged out successfully');
     navigate('/login');
@@ -169,14 +190,6 @@ const Profile = () => {
   const handleDeleteAccount = () => {
     toast.info('Account deletion feature coming soon!');
   };
-
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
@@ -229,14 +242,14 @@ const Profile = () => {
                 <User className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-slate-800">{user.name}</h2>
+                <h2 className="text-2xl font-bold text-slate-800">{user?.firstName} {user?.lastName}</h2>
                 <p className="text-slate-600 flex items-center space-x-2">
                   <Mail className="h-4 w-4" />
-                  <span>{user.email}</span>
+                  <span>{user?.email}</span>
                 </p>
                 <p className="text-slate-500 text-sm flex items-center space-x-2 mt-1">
                   <Calendar className="h-4 w-4" />
-                  <span>Member since {new Date(user.joinDate).toLocaleDateString()}</span>
+                  <span>Member since {new Date(user?.createdAt).toLocaleDateString()}</span>
                 </p>
               </div>
             </div>
@@ -462,9 +475,9 @@ const Profile = () => {
                         Configure
                       </Button>
                     </div>
-                    
+
                     <Separator />
-                    
+
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-medium">Export Data</h3>
@@ -475,17 +488,17 @@ const Profile = () => {
                         Export
                       </Button>
                     </div>
-                    
+
                     <Separator />
-                    
+
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-medium text-red-600">Delete Account</h3>
                         <p className="text-sm text-slate-600">Permanently delete your account and all data</p>
                       </div>
-                      <Button 
-                        variant="destructive" 
-                        size="sm" 
+                      <Button
+                        variant="destructive"
+                        size="sm"
                         onClick={handleDeleteAccount}
                       >
                         Delete Account

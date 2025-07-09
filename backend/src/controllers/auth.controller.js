@@ -5,8 +5,10 @@ import { sign, verify } from "../utils/jwt.js";
 // Registering a new user
 export async function createUser(req, res, next) {
     try {
-        const { email, password } = req.body;
+        const { firstName, lastName, email, password } = req.body;
         const user = await User.create({
+            firstName,
+            lastName,
             email,
             password: await hash(password),
         });
@@ -24,6 +26,44 @@ export async function connectUser(req, res, next) {
         res.json({ token: sign({ id: user._id }, "7d") });
     } catch (e) { next(e); }
 }
+
+// Getting user data
+export async function getUser(req, res, next) {
+    try {
+        const user = await User.findById(req.user.id);
+        if (!user)
+            return res.status(404).json({ msg: 'No User found' });
+
+        res.json({ user });
+    } catch (e) { next(e); }
+}
+
+// Update user data
+export async function updateUser(req, res, next) {
+    try {
+        const { firstName, lastName, email, password } = req.body;
+
+        const user = await User.findById(req.user.id);
+        if (!user) return res.status(404).json({ msg: 'No user found' });
+
+        if (firstName) user.firstName = firstName;
+        if (lastName) user.lastName = lastName;
+        if (email) user.email = email;
+
+        if (password) {
+            const isSame = await compare(password, user.password);
+            if (isSame) {
+                return res.status(400).json({ msg: 'New password must be different from the current password.' });
+            }
+            user.password = await hash(password);
+        }
+
+        await user.save();
+
+        res.json({ user });
+    } catch (e) { next(e); }
+}
+
 
 // Forgot password
 export async function requestReset(req, res, next) {
