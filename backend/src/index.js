@@ -7,6 +7,8 @@ import cors from 'cors';
 
 import connectDB from "./configs/db.js";
 import errorHandler from "./middlewares/error.middleware.js";
+import authRouter from "./routes/auth.routes.js";
+import analyticRouter from "./routes/analytic.routes.js";
 
 // Config env var and database
 dotenv.config();
@@ -28,6 +30,9 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(errorHandler);
 
+// Routes
+app.use("/auth", authRouter);
+app.use("/analytic", analyticRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(
