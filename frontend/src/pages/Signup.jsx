@@ -224,7 +224,7 @@ const Signup = () => {
                   id="agreeToTerms"
                   name="agreeToTerms"
                   checked={formData.agreeToTerms}
-                  onCheckedChange={(checked) => setFormData(prev => ({ ...prev, agreeToTerms: checked }))}
+                  onChange={handleInputChange}
                   disabled={isLoading}
                 />
                 <Label htmlFor="agreeToTerms" className="text-sm">
