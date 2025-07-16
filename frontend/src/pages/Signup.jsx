@@ -69,17 +69,32 @@ const Signup = () => {
       // API call
       const response = await SignUp(formData);
 
-      if (response.token) {
-
+      if (response && response.token) {
         localStorage.setItem('isAuthenticated', 'true');
         localStorage.setItem('token', response.token);
 
-        toast.success('Account created successfully! Welcome to Excel Data Analyzer!');
+        toast.success(response.msg || 'Account created successfully! Welcome to Excel Data Analyzer!');
         navigate('/dashboard');
+      } else {
+        setError(response?.msg || 'Failed to create account. Please try again.');
       }
 
     } catch (err) {
-      setError('Failed to create account. Please try again.');
+      console.error('Signup error:', err);
+      
+      // Handle different error types
+      if (err.response?.data?.msg) {
+        setError(err.response.data.msg);
+      } else if (err.response?.status === 400) {
+        setError('Invalid input. Please check your information and try again.');
+      } else if (err.response?.status === 500) {
+        setError('Server error. Please try again later.');
+      } else if (err.message === 'Network Error') {
+        setError('Unable to connect to server. Please check your connection.');
+      } else {
+        setError('Failed to create account. Please try again.');
+      }
+      
       toast.error('Signup failed');
     } finally {
       setIsLoading(false);
