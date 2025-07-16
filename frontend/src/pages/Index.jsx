@@ -1,15 +1,18 @@
 import { useState } from 'react';
-import { Upload, BarChart3, FileSpreadsheet, TrendingUp, Database, Sparkles, Filter, Brain, Download } from 'lucide-react';
+import { Upload, BarChart3, FileSpreadsheet, TrendingUp, Database, Sparkles, Filter, Brain, Download, Menu, X } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Button, Tabs, TabsContent, TabsList, TabsTrigger, Badge, Alert, AlertDescription } from './ui-components';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { useIsMobile } from '../hooks/use-mobile';
 import FileUpload from './FileUpload';
 
 const Index = () => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [uploadedData, setUploadedData] = useState(null);
   const [fileName, setFileName] = useState('');
   const [activeTab, setActiveTab] = useState('upload');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleFileUpload = (data, name) => {
     setUploadedData(data);
@@ -34,81 +37,126 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Enhanced Header */}
       <header className="bg-white/90 backdrop-blur-lg border-b border-slate-200/50 sticky top-0 z-50 shadow-sm">
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-4 md:px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-3 rounded-xl shadow-lg">
-                <FileSpreadsheet className="h-7 w-7 text-white" />
+            <div className="flex items-center space-x-2 md:space-x-4">
+              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-2 md:p-3 rounded-xl shadow-lg">
+                <FileSpreadsheet className="h-5 w-5 md:h-7 md:w-7 text-white" />
               </div>
-              <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <div className="min-w-0 flex-1">
+                <h1 className="text-xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent truncate">
                   Excel Data Analyzer
                 </h1>
-                <p className="text-sm text-slate-600 flex items-center gap-2 mt-1">
-                  <Sparkles className="h-4 w-4 text-yellow-500" />
+                <p className={`text-xs md:text-sm text-slate-600 flex items-center gap-2 mt-1 ${isMobile ? 'hidden' : ''}`}>
+                  <Sparkles className="h-3 w-3 md:h-4 md:w-4 text-yellow-500" />
                   Built by Kartikey - Advanced data analysis tool
                 </p>
               </div>
             </div>
-            <div className="flex items-center space-x-3">
-              <Badge variant="secondary" className="bg-green-100 text-green-800 px-3 py-1">
-                <TrendingUp className="h-3 w-3 mr-1" />
-                Pro Analytics
-              </Badge>
-              <Badge variant="outline" className="bg-purple-100 text-purple-800">
-                <Brain className="h-3 w-3 mr-1" />
-                AI Powered
-              </Badge>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="shadow-sm hover:shadow-md transition-all"
-                onClick={() => window.location.href = '/login'}
+            
+            {/* Desktop Navigation */}
+            {!isMobile ? (
+              <div className="flex items-center space-x-3">
+                <Badge variant="secondary" className="bg-green-100 text-green-800 px-3 py-1">
+                  <TrendingUp className="h-3 w-3 mr-1" />
+                  Pro Analytics
+                </Badge>
+                <Badge variant="outline" className="bg-purple-100 text-purple-800">
+                  <Brain className="h-3 w-3 mr-1" />
+                  AI Powered
+                </Badge>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="shadow-sm hover:shadow-md transition-all"
+                  onClick={() => window.location.href = '/login'}
+                >
+                  Sign In
+                </Button>
+                <Button 
+                  size="sm" 
+                  className="shadow-sm hover:shadow-md transition-all bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                  onClick={() => window.location.href = '/signup'}
+                >
+                  Get Started
+                </Button>
+              </div>
+            ) : (
+              /* Mobile Menu Button */
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2"
               >
-                Sign In
+                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>
-              <Button 
-                size="sm" 
-                className="shadow-sm hover:shadow-md transition-all bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
-                onClick={() => window.location.href = '/signup'}
-              >
-                Get Started
-              </Button>
-            </div>
+            )}
           </div>
+          
+          {/* Mobile Menu */}
+          {isMobile && mobileMenuOpen && (
+            <div className="mt-4 py-4 border-t border-slate-200 space-y-3 animate-in slide-in-from-top-2">
+              <div className="flex flex-wrap gap-2 mb-3">
+                <Badge variant="secondary" className="bg-green-100 text-green-800 px-3 py-1">
+                  <TrendingUp className="h-3 w-3 mr-1" />
+                  Pro Analytics
+                </Badge>
+                <Badge variant="outline" className="bg-purple-100 text-purple-800">
+                  <Brain className="h-3 w-3 mr-1" />
+                  AI Powered
+                </Badge>
+              </div>
+              <div className="flex flex-col space-y-2">
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => window.location.href = '/login'}
+                >
+                  Sign In
+                </Button>
+                <Button 
+                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                  onClick={() => window.location.href = '/signup'}
+                >
+                  Get Started
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-8">
+      <main className="container mx-auto px-4 md:px-6 py-6 md:py-8">
         {/* Enhanced Progress Indicator */}
-        <div className="mb-8">
-          <div className="flex items-center justify-center space-x-4">
-            <div className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-all ${
+        <div className="mb-6 md:mb-8">
+          <div className={`flex items-center justify-center ${isMobile ? 'flex-col space-y-2' : 'space-x-4'}`}>
+            <div className={`flex items-center space-x-2 px-3 md:px-4 py-2 rounded-full transition-all ${
               activeTab === 'upload' ? 'bg-blue-100 text-blue-700' : 'bg-white/60 text-slate-600'
             }`}>
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+              <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-xs font-bold ${
                 activeTab === 'upload' ? 'bg-blue-600 text-white' : 'bg-slate-300 text-slate-600'
               }`}>1</div>
-              <span className="font-medium">Upload</span>
+              <span className="font-medium text-sm md:text-base">Upload</span>
             </div>
-            <div className={`w-8 h-0.5 ${uploadedData ? 'bg-blue-600' : 'bg-slate-300'} transition-all`}></div>
-            <div className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-all ${
+            {!isMobile && <div className={`w-8 h-0.5 ${uploadedData ? 'bg-blue-600' : 'bg-slate-300'} transition-all`}></div>}
+            <div className={`flex items-center space-x-2 px-3 md:px-4 py-2 rounded-full transition-all ${
               activeTab === 'preview' ? 'bg-blue-100 text-blue-700' : 'bg-white/60 text-slate-600'
             }`}>
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+              <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-xs font-bold ${
                 activeTab === 'preview' ? 'bg-blue-600 text-white' : uploadedData ? 'bg-green-500 text-white' : 'bg-slate-300 text-slate-600'
               }`}>2</div>
-              <span className="font-medium">Analyze</span>
+              <span className="font-medium text-sm md:text-base">Preview</span>
             </div>
-            <div className={`w-8 h-0.5 ${uploadedData ? 'bg-blue-600' : 'bg-slate-300'} transition-all`}></div>
-            <div className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-all ${
+            {!isMobile && <div className={`w-8 h-0.5 ${uploadedData ? 'bg-blue-600' : 'bg-slate-300'} transition-all`}></div>}
+            <div className={`flex items-center space-x-2 px-3 md:px-4 py-2 rounded-full transition-all ${
               activeTab === 'charts' ? 'bg-blue-100 text-blue-700' : 'bg-white/60 text-slate-600'
             }`}>
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                activeTab === 'charts' ? 'bg-blue-600 text-white' : 'bg-slate-300 text-slate-600'
+              <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                activeTab === 'charts' ? 'bg-blue-600 text-white' : uploadedData ? 'bg-green-500 text-white' : 'bg-slate-300 text-slate-600'
               }`}>3</div>
-              <span className="font-medium">Visualize</span>
+              <span className="font-medium text-sm md:text-base">Analyze</span>
             </div>
           </div>
         </div>
