@@ -88,6 +88,11 @@
   .admin-grid-charts {
     @apply grid gap-4 md:gap-6 grid-cols-1 lg:grid-cols-2;
   }
+
+  .admin-stats-card {
+    background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
     box-shadow: 0 8px 25px rgba(59, 130, 246, 0.1);
     transition: all 0.3s ease;
     padding: 1.5rem;
