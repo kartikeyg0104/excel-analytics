@@ -16,7 +16,7 @@ import {
 import { adminAuthAPI } from '../api/admin';
 import { toast } from 'sonner';
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, onClose, isMobile }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -71,27 +71,47 @@ const Sidebar = () => {
     }
   };
 
+  const handleMenuItemClick = () => {
+    if (isMobile && onClose) {
+      onClose();
+    }
+  };
+
   return (
     <div className={`admin-sidebar text-white transition-all duration-300 ${
-      isCollapsed ? 'w-16' : 'w-64'
+      isMobile 
+        ? `fixed inset-y-0 left-0 z-50 w-64 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'}`
+        : `${isCollapsed ? 'w-16' : 'w-64'} relative`
     } min-h-screen flex flex-col`}>
       {/* Header */}
       <div className="p-4 border-b border-blue-400/20">
         <div className="flex items-center justify-between">
-          {!isCollapsed && (
+          {(!isCollapsed || isMobile) && (
             <div>
               <h1 className="text-xl font-bold">Admin Panel</h1>
               <p className="text-blue-200 text-sm">Excel Analytics</p>
             </div>
           )}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="text-white hover:bg-blue-600/20"
-          >
-            {isCollapsed ? <Menu className="h-5 w-5" /> : <X className="h-5 w-5" />}
-          </Button>
+          {!isMobile && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className="text-white hover:bg-blue-600/20"
+            >
+              {isCollapsed ? <Menu className="h-5 w-5" /> : <X className="h-5 w-5" />}
+            </Button>
+          )}
+          {isMobile && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+              className="text-white hover:bg-blue-600/20"
+            >
+              <X className="h-5 w-5" />
+            </Button>
+          )}
         </div>
       </div>
 
@@ -104,6 +124,7 @@ const Sidebar = () => {
               <li key={item.path}>
                 <Link
                   to={item.path}
+                  onClick={handleMenuItemClick}
                   className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     item.active 
                       ? 'bg-blue-600 text-white shadow-lg' 
@@ -111,7 +132,7 @@ const Sidebar = () => {
                   }`}
                 >
                   <Icon className="h-5 w-5 flex-shrink-0" />
-                  {!isCollapsed && (
+                  {(!isCollapsed || isMobile) && (
                     <span className="font-medium">{item.label}</span>
                   )}
                 </Link>
@@ -127,11 +148,11 @@ const Sidebar = () => {
           variant="ghost"
           onClick={handleLogout}
           className={`w-full text-blue-100 hover:bg-red-600/20 hover:text-white ${
-            isCollapsed ? 'px-0' : 'justify-start'
+            (isCollapsed && !isMobile) ? 'px-0' : 'justify-start'
           }`}
         >
           <LogOut className="h-5 w-5 flex-shrink-0" />
-          {!isCollapsed && <span className="ml-3">Logout</span>}
+          {(!isCollapsed || isMobile) && <span className="ml-3">Logout</span>}
         </Button>
       </div>
     </div>

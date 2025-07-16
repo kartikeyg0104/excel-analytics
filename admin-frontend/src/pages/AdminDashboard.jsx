@@ -97,25 +97,25 @@ const AdminDashboard = () => {
 
   return (
     <Layout>
-      <div className="space-y-6">
+      <div className="space-y-4 md:space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-            <p className="text-gray-600 mt-1">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+            <p className="text-gray-600 mt-1 text-sm md:text-base">
               Overview of Excel Analytics platform
             </p>
           </div>
           <Badge 
             variant={stats.systemHealth === 'good' ? 'success' : 'warning'}
-            className="text-sm px-3 py-1"
+            className="text-sm px-3 py-1 self-start sm:self-auto"
           >
             System {stats.systemHealth === 'good' ? 'Healthy' : 'Warning'}
           </Badge>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           <StatsCard
             title="Total Users"
             value={stats.totalUsers?.toLocaleString() || '0'}
@@ -151,7 +151,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Charts and Recent Activity */}
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div className="grid gap-4 md:gap-6 grid-cols-1 lg:grid-cols-2">
           {/* Usage Overview */}
           <Card className="admin-card">
             <CardHeader>
@@ -252,7 +252,7 @@ const AdminDashboard = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               <div 
                 className="p-4 border rounded-lg hover:bg-gray-50 hover:border-blue-300 hover:shadow-md transition-all duration-200 cursor-pointer group"
                 onClick={() => navigate('/users')}
