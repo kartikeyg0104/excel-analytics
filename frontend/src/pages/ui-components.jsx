@@ -249,17 +249,26 @@ const Tabs = ({ defaultValue, value, onValueChange, children, className, ...prop
 
   const handleValueChange = (newValue) => {
     setActiveTab(newValue);
-    onValueChange?.(newValue);
+    if (typeof onValueChange === "function") {
+      onValueChange(newValue);
+    }
   };
 
   return (
     <div className={cn("w-full", className)} {...props}>
-      {React.Children.map(children, (child) =>
-        React.cloneElement(child, {
-          activeTab,
-          onValueChange: handleValueChange,
-        })
-      )}
+      {React.Children.map(children, (child) => {
+        if (!React.isValidElement(child)) return child;
+
+        // Only pass `onValueChange` and `activeTab` to custom components (not native DOM elements)
+        const isCustomComponent = typeof child.type !== "string";
+
+        return isCustomComponent
+          ? React.cloneElement(child, {
+            activeTab,
+            onValueChange: handleValueChange,
+          })
+          : child;
+      })}
     </div>
   );
 };
@@ -280,46 +289,52 @@ const TabsList = React.forwardRef(({ className, children, activeTab, onValueChan
 ));
 TabsList.displayName = "TabsList";
 
-const TabsTrigger = React.forwardRef(({ className, value, children, activeTab, onValueChange, ...props }, ref) => (
-  <button
-    ref={ref}
-    type="button"
-    role="tab"
-    aria-selected={activeTab === value}
-    className={cn(
-      "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-      activeTab === value && "bg-background text-foreground shadow-sm",
-      className
-    )}
-    onClick={() => onValueChange?.(value)}
-    {...props}
-  >
-    {children}
-  </button>
-));
+const TabsTrigger = React.forwardRef(
+  ({ className, value, children, activeTab, onValueChange, ...props }, ref) => {
+    return (
+      <button
+        ref={ref}
+        type="button"
+        role="tab"
+        aria-selected={activeTab === value}
+        className={cn(
+          "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+          activeTab === value && "bg-background text-foreground shadow-sm",
+          className
+        )}
+        onClick={() => onValueChange?.(value)}
+        {...props}
+      >
+        {children}
+      </button>
+    );
+  }
+);
 TabsTrigger.displayName = "TabsTrigger";
 
-const TabsContent = React.forwardRef(({ className, value, activeTab, children, ...props }, ref) => {
-  if (activeTab !== value) return null;
+const TabsContent = React.forwardRef(
+  ({ className, value, activeTab, children, onValueChange, ...props }, ref) => {
+    if (activeTab !== value) return null;
 
-  return (
-    <div
-      ref={ref}
-      role="tabpanel"
-      className={cn(
-        "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-});
+    return (
+      <div
+        ref={ref}
+        role="tabpanel"
+        className={cn(
+          "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);
 TabsContent.displayName = "TabsContent";
 
 // Switch Component
-const Switch = React.forwardRef(({ className, checked, onCheckedChange, ...props }, ref) => {
+const Switch = React.forwardRef(({ className, checked, onCheckedChange, onValueChange, ...props }, ref) => {
   const [isChecked, setIsChecked] = React.useState(checked || false);
 
   const handleToggle = () => {
@@ -344,6 +359,7 @@ const Switch = React.forwardRef(({ className, checked, onCheckedChange, ...props
         className
       )}
       onClick={handleToggle}
+      // ✅ now safe — doesn't include onValueChange
       {...props}
     >
       <span
@@ -593,9 +609,9 @@ const ScrollBar = React.forwardRef(({ className, orientation = "vertical", ...pr
     className={cn(
       "flex touch-none select-none transition-colors",
       orientation === "vertical" &&
-        "h-full w-2.5 border-l border-l-transparent p-[1px]",
+      "h-full w-2.5 border-l border-l-transparent p-[1px]",
       orientation === "horizontal" &&
-        "h-2.5 border-t border-t-transparent p-[1px]",
+      "h-2.5 border-t border-t-transparent p-[1px]",
       className
     )}
     {...props}
