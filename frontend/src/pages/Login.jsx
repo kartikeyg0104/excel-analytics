@@ -54,9 +54,6 @@ const Login = () => {
         setTimeout(() => {
           navigate('/dashboard');
         }, 1000);
-
-        console.log(response.token);
-        console.log("Sign In");
       }
 
     } catch (err) {

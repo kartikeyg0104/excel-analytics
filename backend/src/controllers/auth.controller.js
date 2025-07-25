@@ -6,38 +6,38 @@ import { sign, verify } from "../utils/jwt.js";
 export async function createUser(req, res, next) {
     try {
         const { firstName, lastName, email, password } = req.body;
-        
+
         // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                msg: "User with this email already exists" 
+                msg: "User with this email already exists"
             });
         }
 
         // Validate required fields
         if (!firstName || !lastName || !email || !password) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                msg: "All fields are required" 
+                msg: "All fields are required"
             });
         }
 
         // Validate email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                msg: "Please enter a valid email address" 
+                msg: "Please enter a valid email address"
             });
         }
 
         // Validate password length
         if (password.length < 6) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                msg: "Password must be at least 6 characters long" 
+                msg: "Password must be at least 6 characters long"
             });
         }
 
@@ -47,21 +47,21 @@ export async function createUser(req, res, next) {
             email,
             password: await hash(password),
         });
-        
-        res.status(201).json({ 
+
+        res.status(201).json({
             success: true,
             token: sign({ id: user._id }, "7d"),
             msg: "Account created successfully"
         });
-    } catch (e) { 
+    } catch (e) {
         console.error('Create user error:', e);
         if (e.code === 11000) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                msg: "User with this email already exists" 
+                msg: "User with this email already exists"
             });
         }
-        next(e); 
+        next(e);
     }
 }
 
@@ -69,38 +69,38 @@ export async function createUser(req, res, next) {
 export async function connectUser(req, res, next) {
     try {
         const { email, password } = req.body;
-        
+
         // Validate required fields
         if (!email || !password) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                msg: "Email and password are required" 
+                msg: "Email and password are required"
             });
         }
 
         const user = await User.findOne({ email }).select("+password");
         if (!user) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                msg: "Invalid email or password" 
+                msg: "Invalid email or password"
             });
         }
 
         if (!(await compare(password, user.password))) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                msg: "Invalid email or password" 
+                msg: "Invalid email or password"
             });
         }
 
-        res.json({ 
+        res.json({
             success: true,
             token: sign({ id: user._id }, "7d"),
             msg: "Login successful"
         });
-    } catch (e) { 
+    } catch (e) {
         console.error('Login error:', e);
-        next(e); 
+        next(e);
     }
 }
 

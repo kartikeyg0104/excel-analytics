@@ -71,7 +71,7 @@ const Dashboard = () => {
                 <p className={`text-xs md:text-sm text-slate-600 truncate ${isMobile ? 'hidden' : ''}`}>Welcome back, {user.name}!</p>
               </div>
             </div>
-            
+
             {/* Desktop Navigation */}
             {!isMobile ? (
               <div className="flex items-center space-x-3">
@@ -100,7 +100,7 @@ const Dashboard = () => {
               </Button>
             )}
           </div>
-          
+
           {/* Mobile Menu */}
           {isMobile && mobileMenuOpen && (
             <div className="mt-4 py-4 border-t border-slate-200 space-y-3 animate-in slide-in-from-top-2">
@@ -109,16 +109,16 @@ const Dashboard = () => {
                 {user.email}
               </Badge>
               <div className="flex flex-col space-y-2">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="w-full justify-start"
                   onClick={() => navigate('/profile')}
                 >
                   <User className="h-4 w-4 mr-2" />
                   Profile
                 </Button>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="w-full justify-start"
                   onClick={handleLogout}
                 >
@@ -135,10 +135,10 @@ const Dashboard = () => {
       <main className="container mx-auto px-4 md:px-6 py-6 md:py-8">
         {/* Navigation Tabs */}
         <div className="mb-6 md:mb-8">
-          <div className={`${isMobile 
-            ? 'flex flex-col space-y-2' 
+          <div className={`${isMobile
+            ? 'flex flex-col space-y-2'
             : 'flex space-x-1'
-          } bg-white/60 backdrop-blur-sm rounded-lg p-1 shadow-sm`}>
+            } bg-white/60 backdrop-blur-sm rounded-lg p-1 shadow-sm`}>
             {[
               { id: 'upload', name: 'Upload', icon: Upload },
               { id: 'preview', name: 'Preview', icon: FileText, disabled: !uploadedData },
@@ -247,7 +247,7 @@ const Dashboard = () => {
                       {uploadedData.rowCount} rows, {uploadedData.columnCount} columns
                     </p>
                     <div className={`flex ${isMobile ? 'flex-col space-y-2' : 'space-x-4'} justify-center`}>
-                      <Button 
+                      <Button
                         onClick={() => navigate('/data-analysis', { state: { data: uploadedData, fileName } })}
                         size={isMobile ? "sm" : "default"}
                       >
@@ -277,7 +277,7 @@ const Dashboard = () => {
                   </div>
                   <h3 className="text-lg md:text-xl font-semibold text-slate-800 mb-2">Chart Studio</h3>
                   <p className="text-slate-600 mb-4 md:mb-6 text-sm md:text-base">Create beautiful charts and visualizations from your data.</p>
-                  <Button 
+                  <Button
                     onClick={() => navigate('/charts', { state: { data: uploadedData, fileName } })}
                     size={isMobile ? "sm" : "default"}
                   >

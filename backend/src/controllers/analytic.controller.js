@@ -38,8 +38,16 @@ export const handleAnalyticsUpload = async (req, res, next) => {
             },
         });
 
-        res.status(200).json({ file: savedFile, analytic });
-
-        // res.status(200).json({ file, jsonData, insightsText, insights });
+        res.status(200).json({
+            file: {
+                originalName: file.originalname,
+                filename: file.filename,
+                size: file.size,
+            },
+            analytic: {
+                preview: analytic.preview,
+                insights: analytic.insights,
+            },
+        });
     } catch (e) { next(e) }
 };

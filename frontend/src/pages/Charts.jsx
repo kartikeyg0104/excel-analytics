@@ -80,7 +80,7 @@ const ChartDisplay = ({ chartData, customization }) => {
             </BarChart>
           </ResponsiveContainer>
         );
-      
+
       case 'line':
         return (
           <ResponsiveContainer width="100%" height="100%">
@@ -94,7 +94,7 @@ const ChartDisplay = ({ chartData, customization }) => {
             </RechartsLineChart>
           </ResponsiveContainer>
         );
-      
+
       case 'pie':
         return (
           <ResponsiveContainer width="100%" height="100%">
@@ -118,7 +118,7 @@ const ChartDisplay = ({ chartData, customization }) => {
             </RechartsPieChart>
           </ResponsiveContainer>
         );
-      
+
       case 'scatter':
         return (
           <ResponsiveContainer width="100%" height="100%">
@@ -131,7 +131,7 @@ const ChartDisplay = ({ chartData, customization }) => {
             </RechartsScatterChart>
           </ResponsiveContainer>
         );
-      
+
       default:
         return (
           <div className="text-center p-8">
@@ -162,7 +162,7 @@ const ChartDisplay = ({ chartData, customization }) => {
         </div>
       </CardHeader>
       <CardContent>
-        <div 
+        <div
           className="w-full border border-slate-200 rounded-lg bg-white"
           style={{ height: `${customization.chartHeight}px` }}
         >
@@ -411,10 +411,10 @@ const Charts = () => {
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                   Chart Studio
                 </h1>
-                <p className="text-sm text-slate-600">
+                <div className="text-sm text-slate-600 flex items-center flex-wrap">
                   <Badge variant="outline" className="mr-2">{fileName}</Badge>
-                  {rows.length} rows • {headers.length} columns
-                </p>
+                  <span>{data.rowCount} rows • {data.columnCount} columns</span>
+                </div>
               </div>
             </div>
           </div>
@@ -444,11 +444,10 @@ const Charts = () => {
                         <button
                           key={type.id}
                           onClick={() => setSelectedChartType(type.id)}
-                          className={`p-4 rounded-lg border-2 transition-all ${
-                            selectedChartType === type.id
-                              ? 'border-blue-500 bg-blue-50'
-                              : 'border-slate-200 hover:border-slate-300'
-                          }`}
+                          className={`p-4 rounded-lg border-2 transition-all ${selectedChartType === type.id
+                            ? 'border-blue-500 bg-blue-50'
+                            : 'border-slate-200 hover:border-slate-300'
+                            }`}
                         >
                           <Icon className={`h-6 w-6 mx-auto mb-2 ${type.color}`} />
                           <p className="text-sm font-medium">{type.name}</p>
@@ -501,9 +500,9 @@ const Charts = () => {
             </Card>
 
             {/* Chart Customization */}
-            <ChartCustomization 
-              customization={customization} 
-              setCustomization={setCustomization} 
+            <ChartCustomization
+              customization={customization}
+              setCustomization={setCustomization}
             />
           </div>
 

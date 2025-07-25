@@ -177,30 +177,34 @@ const Select = ({ children, value, onValueChange, ...props }) => {
   );
 };
 
-const SelectTrigger = React.forwardRef(({ className, children, isOpen, setIsOpen, ...props }, ref) => (
-  <button
-    ref={ref}
-    type="button"
-    role="combobox"
-    aria-expanded={isOpen}
-    className={cn(
-      "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-      className
-    )}
-    onClick={() => setIsOpen(!isOpen)}
-    {...props}
-  >
-    {children}
-    <svg
-      className={cn("h-4 w-4 opacity-50 transition-transform", isOpen && "rotate-180")}
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path d="m6 9 6 6 6-6" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} />
-    </svg>
-  </button>
-));
+const SelectTrigger = React.forwardRef(
+  ({ className, children, isOpen, setIsOpen, ...props }, ref) => {
+    return (
+      <button
+        ref={ref}
+        type="button"
+        role="combobox"
+        aria-expanded={isOpen}
+        className={cn(
+          "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          className
+        )}
+        onClick={() => setIsOpen?.((prev) => !prev)}
+      // ❌ Don't spread `props` here unless you've filtered out `setIsOpen` and `isOpen`
+      >
+        {children}
+        <svg
+          className={cn("h-4 w-4 opacity-50 transition-transform", isOpen && "rotate-180")}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="m6 9 6 6 6-6" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} />
+        </svg>
+      </button>
+    );
+  }
+);
 SelectTrigger.displayName = "SelectTrigger";
 
 const SelectValue = ({ placeholder, selectedValue }) => (
@@ -209,7 +213,7 @@ const SelectValue = ({ placeholder, selectedValue }) => (
   </span>
 );
 
-const SelectContent = ({ className, children, isOpen, onSelect, ...props }) => {
+const SelectContent = ({ className, children, isOpen, onSelect }) => {
   if (!isOpen) return null;
 
   return (
@@ -218,7 +222,6 @@ const SelectContent = ({ className, children, isOpen, onSelect, ...props }) => {
         "absolute top-full z-50 w-full min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
         className
       )}
-      {...props}
     >
       {React.Children.map(children, (child) =>
         React.cloneElement(child, { onSelect })

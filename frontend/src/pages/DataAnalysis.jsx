@@ -8,14 +8,14 @@ import { Badge } from './ui-components';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui-components';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, ScrollArea } from './ui-components';
 import { Alert, AlertDescription } from './ui-components';
-import { 
-  Database, 
-  Filter, 
-  Download, 
-  FileText, 
-  Brain, 
-  Search, 
-  SortAsc, 
+import {
+  Database,
+  Filter,
+  Download,
+  FileText,
+  Brain,
+  Search,
+  SortAsc,
   SortDesc,
   FileSpreadsheet,
   ArrowLeft,
@@ -95,7 +95,7 @@ const DataPreview = ({ data }) => {
             </TableBody>
           </Table>
         </ScrollArea>
-        
+
         {rows.length > 10 && (
           <Alert className="mt-4">
             <Info className="h-4 w-4" />
@@ -180,7 +180,7 @@ const DataFilters = ({ headers, onFilter, onSort }) => {
                 <Input
                   placeholder={`Filter ${header}...`}
                   value={columnFilters[header] || ''}
-                  onChange={(e) => 
+                  onChange={(e) =>
                     setColumnFilters(prev => ({
                       ...prev,
                       [header]: e.target.value
@@ -317,35 +317,35 @@ const ExportOptions = ({ data, chartData }) => {
             <TabsTrigger value="data">Export Data</TabsTrigger>
             <TabsTrigger value="charts">Export Charts</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="data" className="space-y-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => exportData('csv')}
                 className="flex flex-col items-center p-4 h-auto"
               >
                 <FileText className="h-6 w-6 mb-2" />
                 <span>CSV</span>
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => exportData('excel')}
                 className="flex flex-col items-center p-4 h-auto"
               >
                 <FileSpreadsheet className="h-6 w-6 mb-2" />
                 <span>Excel</span>
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => exportData('json')}
                 className="flex flex-col items-center p-4 h-auto"
               >
                 <FileJson className="h-6 w-6 mb-2" />
                 <span>JSON</span>
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => exportData('pdf')}
                 className="flex flex-col items-center p-4 h-auto"
               >
@@ -354,11 +354,11 @@ const ExportOptions = ({ data, chartData }) => {
               </Button>
             </div>
           </TabsContent>
-          
+
           <TabsContent value="charts" className="space-y-4">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => exportChart('png')}
                 className="flex flex-col items-center p-4 h-auto"
                 disabled={!chartData}
@@ -366,8 +366,8 @@ const ExportOptions = ({ data, chartData }) => {
                 <Image className="h-6 w-6 mb-2" />
                 <span>PNG</span>
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => exportChart('svg')}
                 className="flex flex-col items-center p-4 h-auto"
                 disabled={!chartData}
@@ -375,8 +375,8 @@ const ExportOptions = ({ data, chartData }) => {
                 <Image className="h-6 w-6 mb-2" />
                 <span>SVG</span>
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => exportChart('pdf')}
                 className="flex flex-col items-center p-4 h-auto"
                 disabled={!chartData}
@@ -398,7 +398,7 @@ const DataAnalysis = () => {
   const location = useLocation();
   const data = location.state?.data;
   const fileName = location.state?.fileName || 'Unknown File';
-  
+
   const [filteredData, setFilteredData] = useState(data);
 
   const handleDataFilter = (filters) => {
@@ -409,7 +409,7 @@ const DataAnalysis = () => {
     // Apply search filter
     if (filters.searchTerm) {
       filtered.rows = filtered.rows.filter((row) =>
-        row.some(cell => 
+        row.some(cell =>
           String(cell || '').toLowerCase().includes(filters.searchTerm.toLowerCase())
         )
       );
@@ -432,19 +432,19 @@ const DataAnalysis = () => {
         filtered.rows.sort((a, b) => {
           const aVal = a[columnIndex];
           const bVal = b[columnIndex];
-          
+
           // Handle numeric sorting
           const aNum = parseFloat(aVal);
           const bNum = parseFloat(bVal);
-          
+
           if (!isNaN(aNum) && !isNaN(bNum)) {
             return filters.sortDirection === 'asc' ? aNum - bNum : bNum - aNum;
           }
-          
+
           // String sorting
           const aStr = String(aVal || '');
           const bStr = String(bVal || '');
-          return filters.sortDirection === 'asc' 
+          return filters.sortDirection === 'asc'
             ? aStr.localeCompare(bStr)
             : bStr.localeCompare(aStr);
         });
@@ -523,14 +523,14 @@ const DataAnalysis = () => {
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                   Data Analysis
                 </h1>
-                <p className="text-sm text-slate-600">
+                <div className="text-sm text-slate-600 flex items-center flex-wrap">
                   <Badge variant="outline" className="mr-2">{fileName}</Badge>
-                  {data.rowCount} rows • {data.columnCount} columns
-                </p>
+                  <span>{data.rowCount} rows • {data.columnCount} columns</span>
+                </div>
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <Button 
+              <Button
                 onClick={() => navigate('/charts', { state: { data: filteredData, fileName } })}
                 className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
               >
@@ -546,14 +546,14 @@ const DataAnalysis = () => {
       <main className="container mx-auto px-6 py-8 space-y-8">
         {/* AI Insights */}
         <DataInsights data={data} />
-        
+
         {/* Data Filters */}
-        <DataFilters 
-          headers={data.headers} 
+        <DataFilters
+          headers={data.headers}
           onFilter={handleDataFilter}
           onSort={handleDataSort}
         />
-        
+
         {/* Data Preview */}
         <DataPreview data={filteredData} />
 

@@ -7,6 +7,6 @@ export default function protect(req, res, next) {
     req.user = verify(token);
     next();
   } catch {
-    res.status(401).json({ msg: "Invalid token" });
+    res.status(401).json({ msg: "Please log in to continue." });
   }
 }

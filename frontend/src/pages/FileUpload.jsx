@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Upload } from 'lucide-react';
 import {
   Card,
@@ -11,7 +12,9 @@ import {
 import { toast } from 'sonner';
 import { uploadFile } from '../api/analytic';
 
-const FileUpload = ({ token, onUploadSuccess }) => {
+const FileUpload = ({ onFileUpload }) => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem('token');
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -21,12 +24,26 @@ const FileUpload = ({ token, onUploadSuccess }) => {
     setIsUploading(true);
     try {
       const response = await uploadFile(file, token);
-      toast.success('File uploaded and processed successfully!');
-      // Optional callback with server response
-      onUploadSuccess(response);
+      const { file: uploadedFile, analytic } = response;
+
+      if (!uploadedFile || !analytic) throw new Error("Invalid response");
+
+      const data = {
+        headers: analytic.preview.length > 0 ? Object.keys(analytic.preview[0]) : [],
+        rows: analytic.preview.map(obj => Object.values(obj)),
+        rowCount: analytic.preview.length,
+        columnCount: analytic.preview.length > 0 ? Object.keys(analytic.preview[0]).length : 0,
+      };
+
+      onFileUpload(data, uploadedFile.originalName);
     } catch (err) {
-      console.error(err);
-      toast.error('Failed to upload file.');
+      console.log(err);
+      const msg = err?.response?.data?.msg || 'Upload failed';
+      toast.error(msg);
+
+      if (msg.toLowerCase().includes('login')) {
+        navigate('/login');
+      }
     } finally {
       setIsUploading(false);
     }
@@ -45,10 +62,8 @@ const FileUpload = ({ token, onUploadSuccess }) => {
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDragging(false);
-
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-      handleFileUpload(files[0]);
+    if (e.dataTransfer.files.length > 0) {
+      handleFileUpload(e.dataTransfer.files[0]);
     }
   };
 

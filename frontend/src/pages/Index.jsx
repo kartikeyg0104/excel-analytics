@@ -8,29 +8,24 @@ import FileUpload from './FileUpload';
 
 const Index = () => {
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
   const [uploadedData, setUploadedData] = useState(null);
   const [fileName, setFileName] = useState('');
   const [activeTab, setActiveTab] = useState('upload');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleFileUpload = (data, name) => {
     setUploadedData(data);
     setFileName(name);
     setActiveTab('preview');
-    toast.success(`Successfully uploaded ${name}`);
-    
-    // Navigate to data analysis page
-    setTimeout(() => {
-      navigate('/data-analysis', { state: { data, fileName: name } });
-    }, 1000);
+    toast.success(`Uploaded ${name} successfully!`);
+
+    // Navigate with file data
+    navigate('/data-analysis', { state: { data, fileName: name } });
   };
 
   const handleGenerateChart = () => {
-    if (uploadedData) {
-      setActiveTab('charts');
-      toast.success('Ready to generate charts!');
-    }
+    if (!uploadedData) return toast.error("No data to chart!");
+    setActiveTab('charts');
+    toast.success('Generating chart...');
   };
 
   return (
@@ -53,7 +48,7 @@ const Index = () => {
                 </p>
               </div>
             </div>
-            
+
             {/* Desktop Navigation */}
             {!isMobile ? (
               <div className="flex items-center space-x-3">
@@ -65,16 +60,16 @@ const Index = () => {
                   <Brain className="h-3 w-3 mr-1" />
                   AI Powered
                 </Badge>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+                <Button
+                  variant="outline"
+                  size="sm"
                   className="shadow-sm hover:shadow-md transition-all"
                   onClick={() => window.location.href = '/login'}
                 >
                   Sign In
                 </Button>
-                <Button 
-                  size="sm" 
+                <Button
+                  size="sm"
                   className="shadow-sm hover:shadow-md transition-all bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
                   onClick={() => window.location.href = '/signup'}
                 >
@@ -93,7 +88,7 @@ const Index = () => {
               </Button>
             )}
           </div>
-          
+
           {/* Mobile Menu */}
           {isMobile && mobileMenuOpen && (
             <div className="mt-4 py-4 border-t border-slate-200 space-y-3 animate-in slide-in-from-top-2">
@@ -108,14 +103,14 @@ const Index = () => {
                 </Badge>
               </div>
               <div className="flex flex-col space-y-2">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="w-full justify-start"
                   onClick={() => window.location.href = '/login'}
                 >
                   Sign In
                 </Button>
-                <Button 
+                <Button
                   className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
                   onClick={() => window.location.href = '/signup'}
                 >
@@ -132,30 +127,24 @@ const Index = () => {
         {/* Enhanced Progress Indicator */}
         <div className="mb-6 md:mb-8">
           <div className={`flex items-center justify-center ${isMobile ? 'flex-col space-y-2' : 'space-x-4'}`}>
-            <div className={`flex items-center space-x-2 px-3 md:px-4 py-2 rounded-full transition-all ${
-              activeTab === 'upload' ? 'bg-blue-100 text-blue-700' : 'bg-white/60 text-slate-600'
-            }`}>
-              <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                activeTab === 'upload' ? 'bg-blue-600 text-white' : 'bg-slate-300 text-slate-600'
-              }`}>1</div>
+            <div className={`flex items-center space-x-2 px-3 md:px-4 py-2 rounded-full transition-all ${activeTab === 'upload' ? 'bg-blue-100 text-blue-700' : 'bg-white/60 text-slate-600'
+              }`}>
+              <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-xs font-bold ${activeTab === 'upload' ? 'bg-blue-600 text-white' : 'bg-slate-300 text-slate-600'
+                }`}>1</div>
               <span className="font-medium text-sm md:text-base">Upload</span>
             </div>
             {!isMobile && <div className={`w-8 h-0.5 ${uploadedData ? 'bg-blue-600' : 'bg-slate-300'} transition-all`}></div>}
-            <div className={`flex items-center space-x-2 px-3 md:px-4 py-2 rounded-full transition-all ${
-              activeTab === 'preview' ? 'bg-blue-100 text-blue-700' : 'bg-white/60 text-slate-600'
-            }`}>
-              <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                activeTab === 'preview' ? 'bg-blue-600 text-white' : uploadedData ? 'bg-green-500 text-white' : 'bg-slate-300 text-slate-600'
-              }`}>2</div>
+            <div className={`flex items-center space-x-2 px-3 md:px-4 py-2 rounded-full transition-all ${activeTab === 'preview' ? 'bg-blue-100 text-blue-700' : 'bg-white/60 text-slate-600'
+              }`}>
+              <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-xs font-bold ${activeTab === 'preview' ? 'bg-blue-600 text-white' : uploadedData ? 'bg-green-500 text-white' : 'bg-slate-300 text-slate-600'
+                }`}>2</div>
               <span className="font-medium text-sm md:text-base">Preview</span>
             </div>
             {!isMobile && <div className={`w-8 h-0.5 ${uploadedData ? 'bg-blue-600' : 'bg-slate-300'} transition-all`}></div>}
-            <div className={`flex items-center space-x-2 px-3 md:px-4 py-2 rounded-full transition-all ${
-              activeTab === 'charts' ? 'bg-blue-100 text-blue-700' : 'bg-white/60 text-slate-600'
-            }`}>
-              <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                activeTab === 'charts' ? 'bg-blue-600 text-white' : uploadedData ? 'bg-green-500 text-white' : 'bg-slate-300 text-slate-600'
-              }`}>3</div>
+            <div className={`flex items-center space-x-2 px-3 md:px-4 py-2 rounded-full transition-all ${activeTab === 'charts' ? 'bg-blue-100 text-blue-700' : 'bg-white/60 text-slate-600'
+              }`}>
+              <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-xs font-bold ${activeTab === 'charts' ? 'bg-blue-600 text-white' : uploadedData ? 'bg-green-500 text-white' : 'bg-slate-300 text-slate-600'
+                }`}>3</div>
               <span className="font-medium text-sm md:text-base">Analyze</span>
             </div>
           </div>
@@ -186,10 +175,10 @@ const Index = () => {
                 Upload Your Excel File
               </h2>
               <p className="text-lg text-slate-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-                Drag and drop your Excel file or click to browse. We support .xlsx and .xls formats 
+                Drag and drop your Excel file or click to browse. We support .xlsx and .xls formats
                 and will automatically parse your data for powerful visualization and analysis.
               </p>
-              
+
               <Alert className="max-w-2xl mx-auto mb-8 bg-blue-50 border-blue-200">
                 <Sparkles className="h-4 w-4 text-blue-600" />
                 <AlertDescription className="text-blue-800">
@@ -197,7 +186,7 @@ const Index = () => {
                 </AlertDescription>
               </Alert>
             </div>
-            
+
             <FileUpload onFileUpload={handleFileUpload} />
 
             {/* Enhanced Feature Cards */}
@@ -278,8 +267,8 @@ const Index = () => {
                   </p>
                 </div>
               </div>
-              <Button 
-                onClick={handleGenerateChart} 
+              <Button
+                onClick={handleGenerateChart}
                 size="lg"
                 className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all"
               >
@@ -302,14 +291,14 @@ const Index = () => {
                     </div>
                   </div>
                   <div className="flex space-x-3">
-                    <Button 
+                    <Button
                       onClick={() => navigate('/data-analysis', { state: { data: uploadedData, fileName } })}
                       className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
                     >
                       <Database className="h-4 w-4 mr-2" />
                       Analyze Data
                     </Button>
-                    <Button 
+                    <Button
                       onClick={() => navigate('/charts', { state: { data: uploadedData, fileName } })}
                       variant="outline"
                       className="border-green-300 text-green-700 hover:bg-green-50"
