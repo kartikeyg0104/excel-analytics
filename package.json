@@ -2,8 +2,12 @@
   "name": "excel-analytics",
   "version": "1.0.0",
   "description": "Excel Analytics - Full Stack Application with Admin Panel",
-  "author": "Kartikey <kartikey0104@example.com>",
+  "homepage": "https://excel-analytics-mern-project.onrender.com",
   "contributors": [
+    {
+      "name": "Kartikey",
+      "email": "kartikey0104@example.com"
+    },
     {
       "name": "Ankit Raj",
       "email": "ankitraj2095@gmail.com"

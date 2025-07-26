@@ -6,12 +6,12 @@ A full-stack, AI-powered Excel data analysis tool built using **React (Vite)** f
 
 ## 🌐 Live Demos
 
-> ⚠️ **Note:** The full application is hosted on [Render](https://excel-analytic-ddxe.onrender.com/). It may take **1–2 minutes** to wake up due to cold starts.
+> ⚠️ **Note:** The full application is hosted on [Render](https://excel-analytics-mern-project.onrender.com/). It may take **1–2 minutes** to wake up due to cold starts.
 
 - 🟢 **Full-Stack MERN App**  
   Developed in collaboration by **Ankit Raj** _(Backend & Deployment)_ and **Kritikya** _(Frontend)_.  
   Includes live file uploads, dynamic visualizations, and AI-powered insights.  
-  🔗 [excel-analytic-ddxe.onrender.com](https://excel-analytic-ddxe.onrender.com/)
+  🔗 [excel-analytic-ddxe.onrender.com](https://excel-analytics-mern-project.onrender.com/)
 
 - ✅ **Frontend Preview (Vercel)**  
   A lightweight static version with sample data for a fast and responsive UI demo.  
