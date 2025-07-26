@@ -48,14 +48,14 @@ export const adminAuthAPI = {
     };
 
     try {
-      const response = await api.post('/admin/login', credentials);
+      const response = await api.post('/api/admin/login', credentials);
       return response.data;
     } catch (error) {
       // If backend is not available, use demo authentication
       if (error.code === 'ERR_NETWORK' || error.code === 'ERR_CONNECTION_REFUSED') {
         // Check demo credentials
-        if (credentials.email === DEMO_CREDENTIALS.email && 
-            credentials.password === DEMO_CREDENTIALS.password) {
+        if (credentials.email === DEMO_CREDENTIALS.email &&
+          credentials.password === DEMO_CREDENTIALS.password) {
           return {
             success: true,
             token: 'demo-admin-token-' + Date.now(),
@@ -74,16 +74,16 @@ export const adminAuthAPI = {
       throw error;
     }
   },
-  
+
   logout: async () => {
     localStorage.removeItem('adminToken');
     localStorage.removeItem('isAdminAuthenticated');
     return { success: true };
   },
-  
+
   verifyToken: async () => {
     try {
-      const response = await api.get('/admin/verify');
+      const response = await api.get('/api/admin/verify');
       return response.data;
     } catch (error) {
       // If backend is not available, check for demo token
@@ -158,31 +158,31 @@ const handleApiCall = async (apiCall, mockData) => {
 export const usersAPI = {
   getAllUsers: async (page = 1, limit = 10, search = '') => {
     return handleApiCall(
-      () => api.get(`/admin/users?page=${page}&limit=${limit}&search=${search}`),
+      () => api.get(`/api/admin/users?page=${page}&limit=${limit}&search=${search}`),
       {
         success: true,
-        data: MOCK_DATA.users.filter(user => 
-          search ? user.name.toLowerCase().includes(search.toLowerCase()) || 
-                   user.email.toLowerCase().includes(search.toLowerCase()) : true
+        data: MOCK_DATA.users.filter(user =>
+          search ? user.name.toLowerCase().includes(search.toLowerCase()) ||
+            user.email.toLowerCase().includes(search.toLowerCase()) : true
         ),
         pagination: { page, limit, total: MOCK_DATA.users.length, pages: 1 }
       }
     );
   },
-  
+
   getUserById: async (userId) => {
     return handleApiCall(
-      () => api.get(`/admin/users/${userId}`),
+      () => api.get(`/api/admin/users/${userId}`),
       {
         success: true,
         data: MOCK_DATA.users.find(user => user.id === parseInt(userId)) || null
       }
     );
   },
-  
+
   updateUser: async (userId, userData) => {
     return handleApiCall(
-      () => api.put(`/admin/users/${userId}`, userData),
+      () => api.put(`/api/admin/users/${userId}`, userData),
       {
         success: true,
         data: { ...MOCK_DATA.users.find(user => user.id === parseInt(userId)), ...userData },
@@ -190,20 +190,20 @@ export const usersAPI = {
       }
     );
   },
-  
+
   deleteUser: async (userId) => {
     return handleApiCall(
-      () => api.delete(`/admin/users/${userId}`),
+      () => api.delete(`/api/admin/users/${userId}`),
       {
         success: true,
         message: 'User deleted successfully'
       }
     );
   },
-  
+
   getUserStats: async () => {
     return handleApiCall(
-      () => api.get('/admin/users/stats'),
+      () => api.get('/api/admin/users/stats'),
       {
         success: true,
         data: MOCK_DATA.stats.users
@@ -217,43 +217,43 @@ export const analyticsAPI = {
   getAllAnalytics: async (page = 1, limit = 10, userId = null) => {
     return handleApiCall(
       () => {
-        let url = `/admin/analytics?page=${page}&limit=${limit}`;
+        let url = `/api/admin/analytics?page=${page}&limit=${limit}`;
         if (userId) url += `&userId=${userId}`;
         return api.get(url);
       },
       {
         success: true,
-        data: MOCK_DATA.analytics.filter(analytics => 
+        data: MOCK_DATA.analytics.filter(analytics =>
           userId ? analytics.userId === parseInt(userId) : true
         ),
         pagination: { page, limit, total: MOCK_DATA.analytics.length, pages: 1 }
       }
     );
   },
-  
+
   getAnalyticsById: async (analyticsId) => {
     return handleApiCall(
-      () => api.get(`/admin/analytics/${analyticsId}`),
+      () => api.get(`/api/admin/analytics/${analyticsId}`),
       {
         success: true,
         data: MOCK_DATA.analytics.find(analytics => analytics.id === parseInt(analyticsId)) || null
       }
     );
   },
-  
+
   deleteAnalytics: async (analyticsId) => {
     return handleApiCall(
-      () => api.delete(`/admin/analytics/${analyticsId}`),
+      () => api.delete(`/api/admin/analytics/${analyticsId}`),
       {
         success: true,
         message: 'Analytics deleted successfully'
       }
     );
   },
-  
+
   getAnalyticsStats: async () => {
     return handleApiCall(
-      () => api.get('/admin/analytics/stats'),
+      () => api.get('/api/admin/analytics/stats'),
       {
         success: true,
         data: MOCK_DATA.stats.analytics
@@ -267,43 +267,43 @@ export const filesAPI = {
   getAllFiles: async (page = 1, limit = 10, userId = null) => {
     return handleApiCall(
       () => {
-        let url = `/admin/files?page=${page}&limit=${limit}`;
+        let url = `/api/admin/files?page=${page}&limit=${limit}`;
         if (userId) url += `&userId=${userId}`;
         return api.get(url);
       },
       {
         success: true,
-        data: MOCK_DATA.files.filter(file => 
+        data: MOCK_DATA.files.filter(file =>
           userId ? file.userId === parseInt(userId) : true
         ),
         pagination: { page, limit, total: MOCK_DATA.files.length, pages: 1 }
       }
     );
   },
-  
+
   getFileById: async (fileId) => {
     return handleApiCall(
-      () => api.get(`/admin/files/${fileId}`),
+      () => api.get(`/api/admin/files/${fileId}`),
       {
         success: true,
         data: MOCK_DATA.files.find(file => file.id === parseInt(fileId)) || null
       }
     );
   },
-  
+
   deleteFile: async (fileId) => {
     return handleApiCall(
-      () => api.delete(`/admin/files/${fileId}`),
+      () => api.delete(`/api/admin/files/${fileId}`),
       {
         success: true,
         message: 'File deleted successfully'
       }
     );
   },
-  
+
   getFileStats: async () => {
     return handleApiCall(
-      () => api.get('/admin/files/stats'),
+      () => api.get('/api/admin/files/stats'),
       {
         success: true,
         data: MOCK_DATA.stats.files
@@ -316,7 +316,7 @@ export const filesAPI = {
 export const systemAPI = {
   getDashboardStats: async () => {
     return handleApiCall(
-      () => api.get('/admin/dashboard/stats'),
+      () => api.get('/api/admin/dashboard/stats'),
       {
         success: true,
         data: {
@@ -328,20 +328,20 @@ export const systemAPI = {
       }
     );
   },
-  
+
   getSystemHealth: async () => {
     return handleApiCall(
-      () => api.get('/admin/system/health'),
+      () => api.get('/api/admin/system/health'),
       {
         success: true,
         data: MOCK_DATA.stats.system
       }
     );
   },
-  
+
   getActivityLogs: async (page = 1, limit = 20) => {
     return handleApiCall(
-      () => api.get(`/admin/activity-logs?page=${page}&limit=${limit}`),
+      () => api.get(`/api/admin/activity-logs?page=${page}&limit=${limit}`),
       {
         success: true,
         data: MOCK_DATA.logs,

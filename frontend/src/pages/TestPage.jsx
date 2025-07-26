@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Card, CardContent, CardHeader, CardTitle } from './ui-components';
 
 const TestPage = () => {

@@ -8,6 +8,7 @@ import FileUpload from './FileUpload';
 
 const Index = () => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [uploadedData, setUploadedData] = useState(null);
   const [fileName, setFileName] = useState('');
   const [activeTab, setActiveTab] = useState('upload');
@@ -44,7 +45,7 @@ const Index = () => {
                 </h1>
                 <p className={`text-xs md:text-sm text-slate-600 flex items-center gap-2 mt-1 ${isMobile ? 'hidden' : ''}`}>
                   <Sparkles className="h-3 w-3 md:h-4 md:w-4 text-yellow-500" />
-                  Built by Kartikey - Advanced data analysis tool
+                  Built by Kartikey & Ankit Raj - Advanced data analysis tool
                 </p>
               </div>
             </div>
@@ -324,7 +325,7 @@ const Index = () => {
               </div>
               <div>
                 <h3 className="font-semibold text-slate-800">Excel Data Analyzer</h3>
-                <p className="text-sm text-slate-600">Built with ❤️ by Kartikey</p>
+                <p className="text-sm text-slate-600">Built with ❤️ by Kartikey & Ankit Raj</p>
               </div>
             </div>
             <div className="flex items-center space-x-6 text-sm text-slate-600">

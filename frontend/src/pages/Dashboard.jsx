@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui-components';
+import { Card, CardContent, CardHeader, CardTitle } from './ui-components';
 import { Button } from './ui-components';
 import { Badge } from './ui-components';
 import { FileSpreadsheet, Upload, BarChart3, User, LogOut, Plus, FileText, TrendingUp, Menu, X } from 'lucide-react';

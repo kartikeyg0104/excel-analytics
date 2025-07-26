@@ -44,9 +44,9 @@ app.get('/', (req, res) => {
     res.json({ message: 'Excel Analytics Backend API is running!', status: 'OK' });
 });
 
-app.use("/auth", authRouter);
-app.use("/analytics", analyticRouter);
-app.use("/admin", adminRoutes);
+app.use("/api/auth", authRouter);
+app.use("/api/analytics", analyticRouter);
+app.use("/api/admin", adminRoutes);
 
 // Error handling middleware should be last
 app.use(errorHandler);

@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui-components';
 import { Button } from './ui-components';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui-components';
 import { Badge } from './ui-components';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui-components';
 import { Input } from './ui-components';
 import { Label } from './ui-components';
 import { Switch } from './ui-components';
