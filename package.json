@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "Excel Analytics - Full Stack Application with Admin Panel",
   "author": "Kartikey <kartikey0104@example.com>",
+  "contributors": [
+    {
+      "name": "Ankit Raj",
+      "email": "ankitraj2095@gmail.com"
+    }
+  ],
   "license": "MIT",
   "private": true,
   "workspaces": [

@@ -1,6 +1,20 @@
 # 📊 Excel Analytics
 
-A full-stack AI-powered Excel data analysis tool built with React (Vite) on the frontend and Express (Node.js) on the backend. Users can upload spreadsheets, visualize them with dynamic charts, filter and explore data, and receive AI-generated insights.
+A full-stack, AI-powered Excel data analysis tool built using **React (Vite)** for the frontend and **Node.js (Express)** for the backend. Upload spreadsheets, visualize them through interactive charts, filter data, and gain insights—all in your browser.
+
+---
+
+## 🌐 Live Demos
+
+> ⚠️ **Note:** The full app is hosted on [Render](https://render.com), which may take a **few minutes** to wake up due to cold starts on free-tier plans.
+
+- ✅ **Frontend Preview (Vercel)**  
+  Static UI with dummy data for quick feature overview  
+  🔗 [excel-analytics-ten.vercel.app](https://excel-analytics-ten.vercel.app/)
+
+- 🟢 **Full MERN App (Render)**  
+  Complete app with live upload, charts, and AI insights  
+  🔗 [excel-analytic-ddxe.onrender.com](https://excel-analytic-ddxe.onrender.com/)
 
 ---
 
@@ -8,23 +22,23 @@ A full-stack AI-powered Excel data analysis tool built with React (Vite) on the 
 
 ```
 excel-analytics/
-├── frontend/    # Vite + React UI (Tailwind, shadcn/ui, Recharts)
-├── backend/     # Express API (Multer, XLSX, OpenAI integration)
-└── README.md    # Root documentation
+├── frontend/        # React + Vite + Tailwind + shadcn/ui + Recharts
+├── backend/         # Express.js + Multer + XLSX + OpenAI integration
+└── README.md        # Root documentation
 ```
 
 ---
 
 ## 🚀 Features
 
-- **File Upload**: Support for Excel (.xlsx, .xls) and CSV files
-- **Data Preview**: Interactive table view with sorting and filtering
-- **Chart Generation**: Multiple chart types (Bar, Line, Pie, Scatter) using Recharts
-- **Data Filtering**: Advanced filtering options with search functionality
-- **Insights**: AI-powered data insights and analytics
-- **Export Options**: Export processed data and charts
-- **Responsive Design**: Modern UI built with Tailwind CSS and shadcn/ui
-- **Real-time Updates**: Instant data processing and visualization
+- ✅ **Excel & CSV Upload**
+- 🧾 **Data Preview** — Sortable, filterable table view
+- 📊 **Chart Generation** — Bar, Line, Pie, and Scatter charts using Recharts
+- 🔍 **Advanced Filters** — Smart column-based filtering
+- 🤖 **AI Insights** — Powered by OpenAI to analyze your data
+- 📤 **Export Support** — Export processed charts and datasets
+- 📱 **Responsive UI** — Mobile-friendly interface built with Tailwind & shadcn/ui
+- ⚡ **Instant Feedback** — Real-time visualization after file upload
 
 ---
 
@@ -37,16 +51,16 @@ git clone https://github.com/kartikeyg0104/excel-analytics.git
 cd excel-analytics
 ```
 
-### 2. Run Backend
+### 2. Backend Setup
 
 ```bash
 cd backend
 npm install
-cp .env.example .env   # Add your OpenAI API key
+cp .env.example .env
 npm run dev
 ```
 
-### 3. Run Frontend
+### 3. Frontend Setup
 
 ```bash
 cd ../frontend
@@ -54,27 +68,29 @@ npm install
 npm run dev
 ```
 
-Navigate to `http://localhost:5173` to get started.
+Visit [http://localhost:5173](http://localhost:5173) to launch the frontend.
 
 ---
 
-## 🎯 Usage
+## 🎯 Usage Flow
 
-1. **Upload Data**: Click the upload area or drag & drop your Excel/CSV file
-2. **Preview Data**: Review your data in the interactive table
-3. **Apply Filters**: Use the filters tab to search and filter your data
-4. **Generate Charts**: Create visualizations using the chart generator
-5. **View Insights**: Get AI-powered insights about your data
-6. **Export Results**: Download your processed data or charts
+1. **Upload Excel/CSV** file using the drag-and-drop uploader
+2. **Preview data** in a dynamic table
+3. **Filter** records by value or column
+4. **Generate charts** for visual analysis
+5. **Get AI insights** to understand patterns and anomalies
+6. **Export** your final results for use elsewhere
+
+---
 
 ## 👥 Contributors
 
-**Kartikey** – Frontend UI/UX
+### 👨‍🎨 Kartikey — Frontend Developer
 
 - GitHub: [@kartikey0104](https://github.com/kartikey0104)
 - Email: kartikey0104@example.com
 
-**Ankit Raj** – Backend & Integration
+### 🧑‍💻 Ankit Raj — Backend & Integration
 
 - GitHub: [@ankitraj217](https://github.com/ankitraj217)
 - Email: ankitraj2095@gamil.com
@@ -83,4 +99,11 @@ Navigate to `http://localhost:5173` to get started.
 
 ## 📄 License
 
-Licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 📝 Notes
+
+- This tool is intended for small-to-medium datasets.
+- For large Excel files or real-time collaboration features, a production-grade infrastructure is recommended.
