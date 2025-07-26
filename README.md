@@ -6,15 +6,17 @@ A full-stack, AI-powered Excel data analysis tool built using **React (Vite)** f
 
 ## 🌐 Live Demos
 
-> ⚠️ **Note:** The full app is hosted on [Render](https://render.com), which may take a **few minutes** to wake up due to cold starts on free-tier plans.
+> ⚠️ **Note:** The full application is hosted on [Render](https://excel-analytic-ddxe.onrender.com/). It may take **1–2 minutes** to wake up due to cold starts.
+
+- 🟢 **Full-Stack MERN App**  
+  Developed in collaboration by **Ankit Raj** _(Backend & Deployment)_ and **Kritikya** _(Frontend)_.  
+  Includes live file uploads, dynamic visualizations, and AI-powered insights.  
+  🔗 [excel-analytic-ddxe.onrender.com](https://excel-analytic-ddxe.onrender.com/)
 
 - ✅ **Frontend Preview (Vercel)**  
-  Static UI with dummy data for quick feature overview  
+  A lightweight static version with sample data for a fast and responsive UI demo.  
+  Designed and built by **Kritikya**.  
   🔗 [excel-analytics-ten.vercel.app](https://excel-analytics-ten.vercel.app/)
-
-- 🟢 **Full MERN App (Render)**  
-  Complete app with live upload, charts, and AI insights  
-  🔗 [excel-analytic-ddxe.onrender.com](https://excel-analytic-ddxe.onrender.com/)
 
 ---
 
