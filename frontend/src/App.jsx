@@ -10,6 +10,7 @@ import Charts from "./pages/Charts.jsx";
 import DataAnalysis from "./pages/DataAnalysis.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import AIChatbot from "./pages/AIChatbot.jsx";
+import Admin from "./pages/Admin";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/profile" element={<Profile />} />
           <Route path="/charts" element={<Charts />} />
           <Route path="/data-analysis" element={<DataAnalysis />} />
+          <Route path="/admin" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -6,17 +6,24 @@ A full-stack, AI-powered Excel data analysis tool built using **React (Vite)** f
 
 ## 🌐 Live Demos
 
-> ⚠️ **Note:** The full application is hosted on [Render](https://excel-analytics-mern-project.onrender.com/). It may take **1–2 minutes** to wake up due to cold starts.
+> ⚠️ **Note:** The full application is hosted on [Render](https://excel-analytics-mern-project.onrender.com/). It may take **1–2 minutes** to wake up due to cold starts on free-tier servers.
 
-- 🟢 **Full-Stack MERN App**  
-  Developed in collaboration by **Ankit Raj** _(Backend & Deployment)_ and **Kritikya** _(Frontend)_.  
-  Includes live file uploads, dynamic visualizations, and AI-powered insights.  
-  🔗 [excel-analytics-ten.vercel.app](https://excel-analytics-mern-project.onrender.com/)
+- 🟢 **Full-Stack MERN Application**  
+   Developed in collaboration by **Ankit Raj** _(Backend & Deployment)_ and **Kritikya** _(Frontend)_.  
+   Includes live file uploads, interactive charts, and AI-powered Excel insights.  
+   🔗 [Launch App](https://excel-analytics-mern-project.onrender.com/)
+
+  > ⚠️ **Note:** Admin Dashboard access by **/admin** on root url.
 
 - ✅ **Frontend Preview (Vercel)**  
-  A lightweight static version with sample data for a fast and responsive UI demo.  
+  A static UI version with mock data for a fast, smooth experience.  
   Designed and built by **Kritikya**.  
-  🔗 [excel-analytics-ten.vercel.app](https://excel-analytics-ten.vercel.app/)
+  🔗 [View Preview](https://excel-analytics-ten.vercel.app/)
+
+- 🔐 **Admin Dashboard**  
+  Secure access to manage analytics, users, and uploaded files.  
+  Built with modern React + Vite stack.  
+  🔗 [Open Admin Panel](https://admin-excel-analytics-ten.vercel.app/)
 
 ---
 
