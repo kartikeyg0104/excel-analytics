@@ -94,15 +94,15 @@ Visit [http://localhost:5173](http://localhost:5173) to launch the frontend.
 
 ## 👥 Contributors
 
-### 👨‍🎨 Kartikey — Frontend Developer
+### 👨‍🎨 Kartikey — Frontend Developer & Integration
 
 - GitHub: [@kartikey0104](https://github.com/kartikey0104)
-- Email: kartikey0104@example.com
+- Email: kartikey.2024@nst.rishihood.edu.in
 
 ### 🧑‍💻 Ankit Raj — Backend & Integration
 
 - GitHub: [@ankitraj217](https://github.com/ankitraj217)
-- Email: ankitraj2095@gamil.com
+- Email: ankitraj2095@gmail.com
 
 ---
 

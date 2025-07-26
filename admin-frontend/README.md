@@ -205,6 +205,13 @@ For demonstration purposes:
 - Advanced filtering and search
 - System configuration management
 
+## 👨‍💻 Author
+
+**Kartikey**
+
+- GitHub: [@kartikeyg0104](https://github.com/kartikeyg0104)
+- Email: kartikey.2024@nst.rishihood.edu.in
+
 ## Contributing
 
 1. Fork the repository

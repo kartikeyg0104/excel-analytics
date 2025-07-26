@@ -103,7 +103,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Kartikey**
 - GitHub: [@kartikey0104](https://github.com/kartikey0104)
-- Email: kartikey0104@example.com
+- Email: kartikey.2024@nst.rishihood.edu.in
 
 ## 🙏 Acknowledgments
 
@@ -138,21 +138,6 @@ npm run dev
 This project is built with:
 
 - Vite
-- TypeScript
 - React
 - shadcn-ui
 - Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/b2026f99-06da-425e-aea9-0b23f4b3b6b6) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
-# excel-analytics
-# excel-analytics
